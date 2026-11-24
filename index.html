@@ -38,12 +38,14 @@ body{max-width:560px;margin:auto;background:var(--panel);min-height:100vh}
 .st.now i{animation:pulse 1.4s infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 8px #3f6fb533}}
 .paused{background:#fff4e0;color:#8a5a00;padding:10px 14px;font-size:14px;text-align:center;font-weight:700}
+.track{display:block;width:100%;border-radius:0;background:#fff4e0;color:#7a4d00;min-height:48px;font-size:15px}
 .view{display:none}.view.on{display:block}
 </style>
 </head>
 <body>
 <div class="view on" id="vMenu">
  <div class="hero"><div class="logo">Dejevu</div><p>Speciality coffee, Speciality day</p><div class="table" id="tableLbl"></div></div>
+ <button id="trackBar" class="track" hidden></button>
  <div id="pausedMsg" class="paused" hidden>الطلب من الموبايل متوقف مؤقتًا، اطلب من الكاشير مباشرة 🙏</div>
  <nav class="cats" id="cats"></nav>
  <div class="wrap" id="menuList"><p class="empty">بنحمّل المنيو…</p></div>
@@ -146,15 +148,19 @@ async function track(token){
  const r=await sb.rpc("get_order",{p_token:token});
  const o=r.data&&r.data[0];
  if(!o){$("#statusBody").innerHTML=`<p class="note">مش لاقيين الطلب.</p><button class="primary" data-go="vMenu">المنيو</button>`;return}
- if(o.status=="rejected"){$("#statusBody").innerHTML=`<div class="big" style="color:var(--bad)">!</div><h2>الطلب اترفض</h2><p>السبب: <b>${esc(o.reason||"")}</b></p><p class="note">كلّم الكاشير أو اطلب تاني.</p><button class="primary" data-go="vMenu">ارجع للمنيو</button>`;ls.set("dejevu_order",null);return}
+ if(o.status=="rejected"){$("#statusBody").innerHTML=`<div class="big" style="color:var(--bad)">!</div><h2>الطلب اترفض</h2><p>السبب: <b>${esc(o.reason||"")}</b></p><p class="note">كلّم الكاشير أو اطلب تاني.</p><button class="primary" data-go="vMenu">ارجع للمنيو</button>`;ls.set("dejevu_order",null);$("#trackBar").hidden=true;return}
  const k=["new","prep","ready","done"].indexOf(o.status);
  const st=["مستني الكاشير يتأكد من التحويل","اتأكد ✓ أوردرك بيتجهز","جاهز! تعالى استلمه من الكاشير","اتسلّم، بالهنا والشفا ☕"];
  $("#statusBody").innerHTML=`<p class="note">رقم الأوردر</p><div class="big">${Number(o.order_id).toLocaleString("ar-EG")}</div><p class="note">ترابيزة ${Number(o.table_no).toLocaleString("ar-EG")} · ${egp(o.total)}</p><div class="steps">${st.map((t,i)=>`<div class="st ${i<=k?"on":""} ${i==k&&k<3?"now":""}"><i>${i<k?"✓":(i+1).toLocaleString("ar-EG")}</i>${t}</div>`).join("")}</div><p class="note">الصفحة دي بتتحدث لوحدها. وهيوصلك واتساب لما يجهز.</p><button class="ghost" data-go="vMenu">اطلب حاجة تانية</button>`;
+ const tb=$("#trackBar");tb.hidden=k>=3;tb.textContent=`عندك أوردر رقم ${Number(o.order_id).toLocaleString("ar-EG")} شغال، دوس هنا تتابع حالته ←`;tb.onclick=()=>{go("vStatus");track(token)};
  if(k<3)pollT=setTimeout(()=>track(token),4000);else ls.set("dejevu_order",null);
 }
 loadMenu();
 const saved=ls.get("dejevu_order");
-if(saved&&saved.token&&Date.now()-saved.t<6*3600e3){go("vStatus");track(saved.token)}
+if(saved&&saved.token&&Date.now()-saved.t<6*3600e3){
+ sb.rpc("get_order",{p_token:saved.token}).then(r=>{const o=r.data&&r.data[0];if(!o||["done","rejected"].includes(o.status))return;
+  const b=$("#trackBar");b.hidden=false;b.textContent=`عندك أوردر رقم ${Number(o.order_id).toLocaleString("ar-EG")} شغال، دوس هنا تتابع حالته ←`;b.onclick=()=>{go("vStatus");track(saved.token)}});
+}
 }
 </script>
 </body>
