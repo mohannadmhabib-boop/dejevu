@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#3f6fb5">
+<title>Dejevu · الكاشير</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.top{background:var(--blue);color:#fff;padding:12px max(3vw,16px);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.top .logo{font-size:26px;flex:1}
+.top button{background:#ffffff26;color:#fff;min-height:38px}
+.gate{display:grid;place-items:center;min-height:80vh;padding:24px}
+.gate .box{background:var(--panel);border-radius:20px;padding:24px;width:100%;max-width:380px;text-align:center;box-shadow:0 20px 50px -30px #0b1f4b88}
+.gate input{margin:6px 0;text-align:start}
+.bar2{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px max(3vw,16px);background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.tabs button{background:var(--blue2);color:var(--blue);min-height:40px}
+.tabs button.on{background:var(--blue);color:#fff}
+.tog{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;cursor:pointer}
+.tog input{width:22px;height:22px;accent-color:var(--warn)}
+.live{font-size:13px;font-weight:700}.live i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-inline-end:5px}.live.on i{background:var(--ok)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:16px max(3vw,16px)}
+.col h4{margin:0 0 10px;font-size:15px;display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px}
+.col h4 span{background:var(--ink);color:#fff;border-radius:10px;padding:0 8px;font-size:13px}
+.col[data-s=new] h4{background:#fff1d6;color:#7a4d00}.col[data-s=prep] h4{background:#e3edfb;color:#1d4a8f}.col[data-s=ready] h4{background:#dff3e7;color:#145c33}
+.card{border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px;background:var(--panel);box-shadow:0 6px 16px -12px #0b1f4b55}
+.card.fresh{border:2px solid var(--warn);animation:glow 1.2s infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px #d98a0033}}
+.ch{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ch b{font-size:22px}.ch .t{font-size:13px;color:var(--mute);white-space:nowrap}
+.tb{display:inline-block;background:var(--blue);color:#fff;border-radius:8px;padding:0 8px;font-size:14px;font-weight:700}
+.card ul{margin:8px 0;padding:0;list-style:none;font-size:15px}
+.card li{display:flex;justify-content:space-between;gap:8px;padding:2px 0}.card li bdi{direction:ltr}
+.memo{background:#fff8e6;color:#6b4a00;border-radius:8px;padding:4px 8px;font-size:13px;margin:6px 0}
+.pay{display:flex;gap:10px;align-items:center;background:var(--bg);border-radius:12px;padding:8px;margin:8px 0}
+.pay img{width:56px;height:76px;object-fit:cover;border-radius:6px;cursor:zoom-in;flex:none;border:1px solid var(--line);background:#fff}
+.pay div{font-size:13px;line-height:1.5}.pay strong{font-size:18px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.acts>*{flex:1 1 auto}
+.b-ok{background:var(--ok);color:#fff}.b-bad{background:transparent;color:var(--bad);border:2px solid var(--bad)}
+.b-blue{background:var(--blue);color:#fff}.b-gray{background:var(--bg);color:var(--ink)}
+a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none;border-radius:12px;min-height:44px;font-weight:800;padding:0 14px}
+a.b-wa{background:#25d366;color:#08331a}
+.posted{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:8px;border-radius:10px;margin-top:6px;cursor:pointer}
+.posted input{width:22px;height:22px;accent-color:var(--ok)}
+.posted.no{background:#fde8e6;color:#8c2318}.posted.yes{background:#dff3e7;color:#145c33}
+.pane{padding:16px max(3vw,16px)}
+.stock{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.stock label{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px;cursor:pointer;background:var(--panel)}
+.stock label bdi{direction:ltr}.stock input{width:20px;height:20px;accent-color:var(--ok)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--panel);border-radius:14px;padding:14px}.kpi b{display:block;font-size:28px;line-height:1.2}.kpi span{font-size:13px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--panel)}td,th{padding:8px;border-bottom:1px solid var(--line);text-align:start}td.num{text-align:left;white-space:nowrap}
+.scroll{overflow-x:auto}
+.set{max-width:460px;background:var(--panel);border-radius:16px;padding:16px}
+.set label{display:block;margin:10px 0;font-weight:700;font-size:14px}
+.modal{position:fixed;inset:0;background:#0b1220cc;display:none;place-items:center;z-index:9;padding:16px}
+.modal.on{display:grid}
+.modal .box{background:var(--panel);border-radius:18px;padding:18px;max-width:460px;width:100%;max-height:92vh;overflow:auto}
+.modal img{max-width:100%;max-height:78vh;display:block;margin:auto;border-radius:10px}
+.reasons{display:grid;gap:8px;margin:12px 0}.reasons button{background:var(--bg);text-align:start}
+@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="logo">Dejevu · الكاشير</div><span class="live" id="live" hidden><i></i><span>متصل</span></span><button id="logout" hidden>خروج</button></header>
+
+<section id="login" class="gate" hidden><form class="box" id="loginForm">
+ <div class="logo" style="color:var(--blue)">Dejevu</div><h2 style="margin:6px 0 12px">دخول الكاشير</h2>
+ <input type="email" id="email" placeholder="الإيميل" dir="ltr" autocomplete="username" required>
+ <input type="password" id="pass" placeholder="الباسورد" dir="ltr" autocomplete="current-password" required>
+ <p class="err" id="loginErr"></p><button class="primary" type="submit">دخول</button></form></section>
+
+<section id="shift" class="gate" hidden><div class="box">
+ <h2 style="margin:0 0 6px">أهلًا 👋</h2><p class="note">دوس الزرار ده عشان يشتغل صوت التنبيه لباقي الشيفت، وسيب الشاشة مفتوحة.</p>
+ <button class="primary" id="startShift">ابدأ الشيفت 🔔</button></div></section>
+
+<section id="app" hidden>
+ <div class="bar2"><div class="tabs"><button class="on" data-tab="pOrders">الأوردرات <span id="tabBadge"></span></button><button data-tab="pStock">الأصناف المتاحة</button><button data-tab="pDay">تقفيل اليوم</button><button data-tab="pSet">الإعدادات</button></div>
+  <label class="tog"><input type="checkbox" id="pause">إيقاف الطلبات مؤقتًا</label></div>
+ <div id="pOrders" class="cols">
+  <div class="col" data-s="new"><h4>🟡 جديد: اتأكد من الفلوس <span id="cNew">0</span></h4><div id="lNew"></div></div>
+  <div class="col" data-s="prep"><h4>🔵 بيتجهز <span id="cPrep">0</span></h4><div id="lPrep"></div></div>
+  <div class="col" data-s="ready"><h4>🟢 جاهز للاستلام <span id="cReady">0</span></h4><div id="lReady"></div></div>
+ </div>
+ <div id="pStock" class="pane" hidden><p class="note">شيل العلامة من أي صنف خلص، فيظهر للعميل "خلصان" ومينفعش يطلبه.</p><div id="stockList"></div></div>
+ <div id="pDay" class="pane" hidden></div>
+ <div id="pSet" class="pane" hidden><div class="set">
+  <label>عنوان إنستاباي اللي يظهر للعميل<input id="sInsta" dir="ltr"></label>
+  <label>رقم المحفظة اللي يظهر للعميل<input id="sWallet" dir="ltr"></label>
+  <button class="b-blue" id="saveSet">حفظ</button> <span class="note" id="setMsg"></span></div></div>
+</section>
+
+<div class="modal" id="mImg"><div class="box" style="max-width:640px"><img id="bigImg" alt="سكرين التحويل"><button class="b-gray" style="width:100%;margin-top:10px" data-close>قفل</button></div></div>
+<div class="modal" id="mRej"><div class="box"><h3 style="margin:0">سبب الرفض</h3><p class="note">العميل هيشوف السبب على موبايله.</p><div class="reasons" id="reasons"></div><button class="b-gray" style="width:100%" data-close>إلغاء</button></div></div>
+<div class="modal" id="mWa"><div class="box"><h3 style="margin:0">الطلب اترفض</h3><p>تحب تبعتله رسالة واتساب كمان؟</p><div class="acts"><a class="btn b-wa" id="waRej" target="_blank" rel="noopener" data-close>ابعت واتساب</a><button class="b-gray" data-close>لأ، خلاص</button></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+{
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const REASONS=["الفلوس موصلتش","المبلغ المحوّل ناقص","السكرين مش واضح، ابعته تاني","صنف من الطلب خلصان","المكان هيقفل دلوقتي"];
+let orders=[],menu=[],settings={},known=new Set(),fresh=new Set(),urls={},audio=null,first=true,rejId=null,chan=null;
+const show=id=>["login","shift","app"].forEach(x=>$("#"+x).hidden=x!=id);
+
+async function boot(){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session){show("login");return}
+ const st=await sb.from("staff").select("user_id").eq("user_id",session.user.id).maybeSingle();
+ if(!st.data){show("login");$("#loginErr").textContent="الحساب ده مش متسجل ككاشير.";await sb.auth.signOut();return}
+ $("#logout").hidden=false;show("shift");
+}
+$("#loginForm").onsubmit=async e=>{e.preventDefault();$("#loginErr").textContent="";
+ const r=await sb.auth.signInWithPassword({email:$("#email").value.trim(),password:$("#pass").value});
+ if(r.error){$("#loginErr").textContent="الإيميل أو الباسورد غلط";return}$("#pass").value="";boot()};
+$("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
+$("#startShift").onclick=()=>{try{audio=new (window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(e){}try{navigator.wakeLock&&navigator.wakeLock.request("screen")}catch(e){}show("app");start()};
+
+async function start(){
+ await Promise.all([loadOrders(),loadMenu()]);
+ chan=sb.channel("orders-live").on("postgres_changes",{event:"*",schema:"public",table:"orders"},()=>loadOrders())
+  .on("postgres_changes",{event:"*",schema:"public",table:"settings"},()=>loadMenu())
+  .subscribe(s=>{$("#live").hidden=false;$("#live").classList.toggle("on",s=="SUBSCRIBED");$("#live span").textContent=s=="SUBSCRIBED"?"متصل":"بيعيد الاتصال…"});
+ setInterval(loadOrders,20000);
+ setInterval(()=>{if(fresh.size)ring();$$("[data-age]").forEach(el=>el.textContent=ago(el.dataset.age))},5000);
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadOrders()});
+}
+async function loadOrders(){
+ const d=new Date();d.setHours(4,0,0,0);if(new Date()<d)d.setDate(d.getDate()-1);
+ const r=await sb.from("orders").select("*").gte("created_at",d.toISOString()).order("created_at");
+ if(r.error)return;orders=r.data;
+ for(const o of orders){if(!known.has(o.id)){known.add(o.id);if(!first&&o.status=="new"){fresh.add(o.id);ring()}}if(o.status!="new")fresh.delete(o.id)}
+ first=false;
+ await Promise.all(orders.filter(o=>["new","prep","ready"].includes(o.status)&&!urls[o.shot_path]).map(async o=>{const s=await sb.storage.from("shots").createSignedUrl(o.shot_path,6*3600);if(s.data)urls[o.shot_path]=s.data.signedUrl}));
+ renderBoard();renderDay();
+}
+async function loadMenu(){
+ const [m,s]=await Promise.all([sb.from("menu_items").select("*").order("sort"),sb.from("settings").select("*").eq("id",1).single()]);
+ if(m.data)menu=m.data;if(s.data){settings=s.data;$("#pause").checked=settings.paused;$("#sInsta").value=settings.instapay;$("#sWallet").value=settings.wallet}
+ const cats=[...new Set(menu.map(i=>i.cat))];
+ $("#stockList").innerHTML=cats.map(c=>`<h4 style="margin:14px 0 6px"><bdi>${esc(c)}</bdi></h4><div class="stock">${menu.filter(i=>i.cat==c).map(i=>`<label><bdi>${esc(i.name)}</bdi><input type="checkbox" data-stock="${i.id}" ${i.available?"checked":""}></label>`).join("")}</div>`).join("");
+}
+function ring(){if(!audio)return;try{const t=audio.currentTime;[0,.18,.36].forEach((d,i)=>{const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=[880,1175,1568][i];g.gain.setValueAtTime(.0001,t+d);g.gain.exponentialRampToValueAtTime(.3,t+d+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d+.16);o.connect(g).connect(audio.destination);o.start(t+d);o.stop(t+d+.18)})}catch(e){}}
+const ago=t=>{const m=Math.floor((Date.now()-new Date(t))/60000);return m<1?"دلوقتي":`من ${m.toLocaleString("ar-EG")} د`};
+function wa(o,kind){const msg=kind=="ready"?`أهلاً بيك في Dejevu ☕\nأوردرك رقم ${o.id} جاهز، اتفضل استلمه من الكاشير.`:`أهلاً بيك في Dejevu\nللأسف أوردرك رقم ${o.id} اترفض: ${o.reason}\nكلّم الكاشير لو محتاج مساعدة.`;return `https://wa.me/2${o.phone}?text=${encodeURIComponent(msg)}`}
+function card(o){
+ const m=o.method=="instapay"?"إنستاباي":"محفظة",img=urls[o.shot_path]||"";let acts="";
+ if(o.status=="new")acts=`<button class="b-ok" data-act="prep" data-id="${o.id}">✓ الفلوس وصلت، أكّد</button><button class="b-bad" data-act="rej" data-id="${o.id}">رفض</button>`;
+ if(o.status=="prep")acts=`<a class="btn b-wa" href="${esc(wa(o,"ready"))}" target="_blank" rel="noopener" data-act="ready" data-id="${o.id}">جاهز، ابعت واتساب</a>`;
+ if(o.status=="ready")acts=`<a class="btn b-gray" href="${esc(wa(o,"ready"))}" target="_blank" rel="noopener">إعادة الرسالة</a><button class="b-blue" data-act="done" data-id="${o.id}">اتسلّم ✓</button>`;
+ return `<div class="card ${fresh.has(o.id)?"fresh":""}" data-seen="${o.id}">
+  <div class="ch"><b>#${o.id}</b><span class="tb">ترابيزة ${o.table_no}</span><span class="t" data-age="${esc(o.created_at)}">${ago(o.created_at)}</span></div>
+  <ul>${o.items.map(i=>`<li><span>${Number(i.q)} × <bdi>${esc(i.n)}</bdi></span><span>${egp(i.p*i.q)}</span></li>`).join("")}</ul>
+  ${o.memo?`<div class="memo">📝 ${esc(o.memo)}</div>`:""}
+  <div class="pay">${img?`<img src="${esc(img)}" alt="سكرين التحويل" data-img>`:""}<div><strong>${egp(o.total)}</strong><br>${m} · واتساب <bdi dir="ltr">${esc(o.phone)}</bdi>${o.status=="new"?`<br><span style="color:var(--warn);font-weight:700">شيّك على التطبيق إن المبلغ دخل</span>`:""}</div></div>
+  ${o.status!="new"?`<label class="posted ${o.posted?"yes":"no"}"><input type="checkbox" data-post="${o.id}" ${o.posted?"checked":""}>${o.posted?"اتسجل في سيستم الكاشير":"لسه متسجلش في سيستم الكاشير"}</label>`:""}
+  <div class="acts">${acts}</div></div>`;
+}
+function renderBoard(){
+ [["new","#lNew","#cNew"],["prep","#lPrep","#cPrep"],["ready","#lReady","#cReady"]].forEach(([s,l,c])=>{const L=orders.filter(o=>o.status==s);$(c).textContent=L.length;$(l).innerHTML=L.length?L.map(card).join(""):`<div class="empty">${s=="new"?"مفيش أوردرات جديدة":"فاضي"}</div>`});
+ const n=orders.filter(o=>o.status=="new").length;$("#tabBadge").textContent=n?`(${n})`:"";document.title=(n?`(${n}) `:"")+"Dejevu · الكاشير";
+}
+function renderDay(){
+ const ok=orders.filter(o=>["prep","ready","done"].includes(o.status)),sum=m=>ok.filter(o=>!m||o.method==m).reduce((a,o)=>a+o.total,0);
+ const rej=orders.filter(o=>o.status=="rejected").length,np=ok.filter(o=>!o.posted).length;
+ $("#pDay").innerHTML=`<div class="kpis"><div class="kpi"><span>أوردرات اتأكدت</span><b>${ok.length}</b></div><div class="kpi"><span>إجمالي اللي اتحصّل</span><b>${egp(sum())}</b></div><div class="kpi"><span>على إنستاباي</span><b>${egp(sum("instapay"))}</b></div><div class="kpi"><span>على المحفظة</span><b>${egp(sum("wallet"))}</b></div><div class="kpi"><span>مرفوض</span><b>${rej}</b></div><div class="kpi" style="${np?"background:#fde8e6;color:#8c2318":""}"><span>لسه متسجلش في الكاشير</span><b>${np}</b></div></div>
+ <p class="note">اليوم بيبدأ الساعة ٤ الفجر. طابق الأرقام دي مع حساب إنستاباي والمحفظة آخر اليوم.</p>
+ ${ok.length?`<div class="scroll"><table><tr><th>#</th><th>ترابيزة</th><th>الدفع</th><th>المبلغ</th><th>الحالة</th></tr>${ok.map(o=>`<tr><td>${o.id}</td><td>${o.table_no}</td><td>${o.method=="instapay"?"إنستاباي":"محفظة"}</td><td class="num">${egp(o.total)}</td><td>${{prep:"بيتجهز",ready:"جاهز",done:"اتسلّم"}[o.status]}</td></tr>`).join("")}</table></div>`:""}`;
+}
+async function upd(id,patch){const o=orders.find(x=>x.id==id);if(o)Object.assign(o,patch);fresh.delete(+id);renderBoard();renderDay();const r=await sb.from("orders").update(patch).eq("id",id);if(r.error){alertBox();loadOrders()}}
+function alertBox(){const n=document.createElement("div");n.className="modal on";n.innerHTML=`<div class="box"><p>التعديل متسجلش، اتأكد من النت.</p><button class="b-gray" style="width:100%" data-close>تمام</button></div>`;document.body.append(n);n.onclick=e=>{if(e.target.closest("[data-close]"))n.remove()}}
+document.addEventListener("click",e=>{
+ const a=e.target.closest("[data-act]");
+ if(a){const id=+a.dataset.id,k=a.dataset.act;
+  if(k=="prep")upd(id,{status:"prep"});
+  if(k=="ready")setTimeout(()=>upd(id,{status:"ready"}),50);
+  if(k=="done")upd(id,{status:"done"});
+  if(k=="rej"){rejId=id;$("#reasons").innerHTML=REASONS.map(r=>`<button data-reason="${esc(r)}">${esc(r)}</button>`).join("");$("#mRej").classList.add("on")}}
+ const r=e.target.closest("[data-reason]");if(r){const reason=r.dataset.reason;$("#mRej").classList.remove("on");upd(rejId,{status:"rejected",reason});const o=orders.find(x=>x.id==rejId);$("#waRej").href=wa(Object.assign({},o,{reason}),"rej");$("#mWa").classList.add("on")}
+ const im=e.target.closest("[data-img]");if(im){$("#bigImg").src=im.src;$("#mImg").classList.add("on")}
+ const sn=e.target.closest("[data-seen]");if(sn&&fresh.delete(+sn.dataset.seen))sn.classList.remove("fresh");
+ if(e.target.closest("[data-close]")||e.target.classList.contains("modal"))$$(".modal").forEach(m=>m.classList.remove("on"));
+ const t=e.target.closest("[data-tab]");if(t){$$("[data-tab]").forEach(b=>b.classList.toggle("on",b==t));["pOrders","pStock","pDay","pSet"].forEach(p=>$("#"+p).hidden=p!=t.dataset.tab)}
+});
+document.addEventListener("change",async e=>{
+ const p=e.target.dataset.post;if(p)upd(+p,{posted:e.target.checked});
+ const s=e.target.dataset.stock;if(s){const r=await sb.from("menu_items").update({available:e.target.checked}).eq("id",+s);if(r.error){e.target.checked=!e.target.checked;alertBox()}}
+ if(e.target.id=="pause"){const r=await sb.from("settings").update({paused:e.target.checked}).eq("id",1);if(r.error){e.target.checked=!e.target.checked;alertBox()}}
+});
+$("#saveSet").onclick=async()=>{const r=await sb.from("settings").update({instapay:$("#sInsta").value.trim(),wallet:$("#sWallet").value.trim()}).eq("id",1);$("#setMsg").textContent=r.error?"محصلش حفظ":"اتحفظ ✓"};
+boot();
+}
+</script>
+</body>
+</html>

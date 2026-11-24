@@ -1,0 +1,29 @@
+:root{color-scheme:light;--bg:#eef3fa;--panel:#fff;--ink:#14213a;--mute:#5d6b82;--line:#dbe3ef;--blue:#3f6fb5;--blue2:#e6eefa;--coffee:#8a5a35;--ok:#1f8a4c;--warn:#d98a00;--bad:#c0392b}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Cairo,system-ui,sans-serif;overflow-x:clip}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;border-radius:12px;min-height:44px;padding:0 16px;font-weight:700}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #f2b84b;outline-offset:2px}
+input,select,textarea{font-size:16px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px;width:100%}
+bdi{unicode-bidi:isolate}[hidden]{display:none!important}
+.logo{font-family:Fredoka,Cairo,sans-serif;font-size:34px;line-height:1;letter-spacing:.5px}
+.note{font-size:13px;color:var(--mute)}
+.err{color:var(--bad);font-size:14px;font-weight:600}
+.primary{background:var(--blue);color:#fff;width:100%;min-height:52px;font-size:17px}
+.ghost{background:transparent;color:var(--mute);text-decoration:underline;font-weight:600;font-size:13px;min-height:36px}
+.qty{display:flex;align-items:center;gap:4px}
+.qty button{min-height:36px;width:36px;padding:0;border-radius:50%;background:var(--blue);color:#fff;font-size:18px;line-height:1}
+.qty button.m{background:var(--blue2);color:var(--blue)}
+.qty span{width:22px;text-align:center;font-weight:700}
+.it{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.it .n{flex:1;direction:ltr;text-align:left;font-weight:600;font-size:15px}
+.it .p{white-space:nowrap;color:var(--coffee);font-weight:700;font-size:14px}
+.it.off{opacity:.45}.it.off .p::after{content:" · خلصان";color:var(--bad)}
+.empty{color:var(--mute);font-size:14px;text-align:center;padding:24px 8px;border:2px dashed var(--line);border-radius:14px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:8px 0}
+.tot{font-size:20px;font-weight:800;border-top:2px solid var(--ink);margin-top:6px;padding-top:10px}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid #fff8;border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle}
+@keyframes sp{to{transform:rotate(1turn)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}

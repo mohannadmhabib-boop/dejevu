@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dejevu · كيو آر الترابيزات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.ctl{display:flex;gap:10px;align-items:end;flex-wrap:wrap;padding:16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.ctl label{font-weight:700;font-size:14px}.ctl input{width:110px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;padding:16px}
+.qr{background:#fff;border:2px solid var(--blue);border-radius:18px;padding:16px;text-align:center;break-inside:avoid}
+.qr .logo{color:var(--blue);font-size:28px}
+.qr .code{display:grid;place-items:center;margin:10px auto}
+.qr b{display:block;font-size:20px}.qr small{color:var(--mute)}
+@media print{.ctl{display:none}.grid{grid-template-columns:repeat(3,1fr)}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="ctl"><label>عدد الترابيزات<br><input type="number" id="n" value="12" min="1" max="200"></label><button class="b-blue" id="gen" style="background:var(--blue);color:#fff">اعمل الكيو آر</button><button id="print" style="background:var(--coffee);color:#fff">اطبع</button><span class="note">كل كود بيفتح المنيو على رقم الترابيزة بتاعته.</span></div>
+<div class="grid" id="grid"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+{
+const base=location.origin+location.pathname.replace(/qr\.html$/,"");
+function gen(){const n=Math.max(1,Math.min(200,+document.getElementById("n").value||1)),g=document.getElementById("grid");g.innerHTML="";
+ for(let i=1;i<=n;i++){const d=document.createElement("div");d.className="qr";d.innerHTML=`<div class="logo">Dejevu</div><div class="code"></div><b>ترابيزة ${i}</b><small>صوّر الكود واطلب من موبايلك</small>`;g.append(d);
+  new QRCode(d.querySelector(".code"),{text:base+"?t="+i,width:170,height:170,correctLevel:QRCode.CorrectLevel.M})}}
+document.getElementById("gen").onclick=gen;document.getElementById("print").onclick=()=>print();gen();
+}
+</script>
+</body>
+</html>
