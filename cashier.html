@@ -68,7 +68,7 @@ table{width:100%;border-collapse:collapse;font-size:14px;background:var(--panel)
 
 <section id="login" class="gate" hidden><form class="box" id="loginForm">
  <div class="logo" style="color:var(--blue)">Dejevu</div><h2 style="margin:6px 0 12px">دخول الكاشير</h2>
- <input type="email" id="email" placeholder="الإيميل" dir="ltr" autocomplete="username" required>
+ <input type="text" id="email" placeholder="اسم المستخدم" dir="ltr" autocomplete="username" autocapitalize="none" required>
  <input type="password" id="pass" placeholder="الباسورد" dir="ltr" autocomplete="current-password" required>
  <p class="err" id="loginErr"></p><button class="primary" type="submit">دخول</button></form></section>
 
@@ -114,8 +114,8 @@ async function boot(){
  $("#logout").hidden=false;show("shift");
 }
 $("#loginForm").onsubmit=async e=>{e.preventDefault();$("#loginErr").textContent="";
- const r=await sb.auth.signInWithPassword({email:$("#email").value.trim(),password:$("#pass").value});
- if(r.error){$("#loginErr").textContent="الإيميل أو الباسورد غلط";return}$("#pass").value="";boot()};
+ const r=await sb.auth.signInWithPassword({email:(u=>u.includes("@")?u:u+"@dejevu.app")($("#email").value.trim().toLowerCase()),password:$("#pass").value});
+ if(r.error){$("#loginErr").textContent="اسم المستخدم أو الباسورد غلط";return}$("#pass").value="";boot()};
 $("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 $("#startShift").onclick=()=>{try{audio=new (window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(e){}try{navigator.wakeLock&&navigator.wakeLock.request("screen")}catch(e){}show("app");start()};
 
